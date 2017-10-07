@@ -7,9 +7,16 @@ use App\Post;
 
 class PostsController extends Controller
 {
-    public function index() {
     
-        return view('posts.index');
+    public function __construct() {
+        
+        $this->middleware('auth')->except(['index','show']);
+    }
+    
+    public function index() {
+        
+        $posts = Post::latest()->get();
+        return view('posts.index', compact('posts'));
         
     }
     
@@ -18,9 +25,22 @@ class PostsController extends Controller
         return view('posts.create');
     }
     
-    public function store() {
+    public function show(Post $post)    {
         
-       Post::create(request(['title', 'body'])); 
+        return view('posts.show', compact('post'));
+    }
+    
+    public function store() {
+       
+       $this->validate(request(), [
+           
+           'title'=>'required',
+           'body'=>'required'
+           
+       ]);
+       auth()->user()->publish(new Post(request(['title','body'])));
+
        return redirect('/');   
- }
+    }
+
 }

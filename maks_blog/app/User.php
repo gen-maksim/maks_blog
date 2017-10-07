@@ -8,15 +8,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+    
+    
+    protected $fillable = ['name','email','password'];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -26,4 +26,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    public function post() {
+        
+        return $this->hasMany(Post::class);
+    }
+    
+    public function publish(Post $post) {
+        
+       $this->post()->save($post);
+    }
 }
