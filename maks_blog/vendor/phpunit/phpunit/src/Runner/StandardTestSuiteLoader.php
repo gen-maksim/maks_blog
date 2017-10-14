@@ -29,7 +29,7 @@ class StandardTestSuiteLoader implements TestSuiteLoader
      */
     public function load($suiteClassName, $suiteClassFile = '')
     {
-        $suiteClassName = \str_replace('.php', '', $suiteClassName);
+        $suiteClassName = \str_replace('.php', '', $suiteClassName);//ExampleTest';
 
         if (empty($suiteClassFile)) {
             $suiteClassFile = Filesystem::classNameToFilename(
@@ -93,7 +93,7 @@ class StandardTestSuiteLoader implements TestSuiteLoader
         if (\class_exists($suiteClassName, false)) {
             $class = new ReflectionClass($suiteClassName);
 
-            if ($class->getFileName() == \realpath($suiteClassFile)) {
+            if (strtolower($class->getFileName()) == strtolower(realpath($suiteClassFile))) {
                 return $class;
             }
         }
