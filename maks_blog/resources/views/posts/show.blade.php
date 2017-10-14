@@ -3,6 +3,17 @@
 @section ('content')
 
 	<h1>{{ $post->title }}</h1>
+	@if (count($post->tag))
+		
+		@foreach ($post->tag as $tag)
+			<li>
+    			<a href="/posts/tags/{{ $tag->name }}">
+    				{{ $tag->name }}
+    			</a>
+			</li>
+		@endforeach
+		
+	@endif
 	
 	{{ $post->body }}
 	
@@ -14,7 +25,7 @@
     			   		
     			<li class="list-group-item">
     				<strong>
-    				{{ $comment->created_at->diffForHumans() }}: &nbsp;
+    				{{ $comment->created_at->diffForHumans() }} {{ $comment->user->name }} said: &nbsp;
     				</strong>
     				{{ $comment->body }}
     			</li>
@@ -34,7 +45,7 @@
         </div>
         
         <div class="form-group">
-        <button type="submit" class="btn btn-primary">Add comment</button>
+        <button type="submit" class="btn btn-primary">Say</button>
         </div>
         
         @include('layouts.errors')

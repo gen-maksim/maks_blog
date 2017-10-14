@@ -18,9 +18,10 @@ class SessionController extends Controller
     }
     
     public function destroy() {
+        session()->flash('message','See you, ' . auth()->user()->name);
         
         auth()->logout();
-        
+         
         return redirect('/');
     }
     

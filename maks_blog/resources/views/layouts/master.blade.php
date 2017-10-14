@@ -17,7 +17,13 @@
 
   <body>
 	@include ('layouts.nav')
-
+	
+	
+	@if ($msg = session('message'))
+		<div id="flash-message" class="alert alert-success" role="alert">
+			{{ $msg }}	
+		</div>
+	@endif
 
     <div class="container">
 

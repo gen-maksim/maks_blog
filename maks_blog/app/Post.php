@@ -16,15 +16,16 @@ class Post extends Model
     }
     
     
-    public function addComment($body) {
-        
-        $this->comments()->create(compact('body'));
-    }
+    /*public function addComment($body, $user_id) {
+        $this->comments()->create(compact('user_id','body'));
+    }*/
+    
     
     public function user() {
         
         return $this->belongsTo(User::class);
     }
+    
     
     public function scopeFilter($query, $filters){
         
@@ -42,7 +43,14 @@ class Post extends Model
         }
     }
     
-    static function archives (){
+    
+    public function tag() {
+        
+        return $this->belongsToMany(Tag::class);
+    }
+    
+    
+    static function archives() {
         
         return static::selectRaw('year(created_at) year, monthname(created_at) month, count(*) published')
                         ->groupBy('year','month')
